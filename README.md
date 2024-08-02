@@ -21,7 +21,7 @@ This project is a web-based application for managing social media accounts with 
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/Oluyalireuben/social-media-dashboard.git
+    git clone https://github.com/oluyalireuben/social-media-dashboard.git
     cd social-media-dashboard
     ```
 
