@@ -1,15 +1,29 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    header('Location: login.html');
-    exit();
+// Database connection
+$conn = new mysqli('localhost', 'root', '', 'social_media_dashboard');
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-$username = htmlspecialchars($_SESSION['username']);
-?>
+// Fetch user info
+$user_id = $_SESSION['user_id'];
+$result = $conn->query("SELECT username FROM users WHERE id = $user_id");
+$user = $result->fetch_assoc();
+$username = htmlspecialchars($user['username']);
 
+// Fetch scheduled posts
+$schedule_result = $conn->query("SELECT content, scheduled_at FROM posts WHERE user_id = $user_id ORDER BY scheduled_at DESC");
+
+$schedule_posts = [];
+while ($row = $schedule_result->fetch_assoc()) {
+    $schedule_posts[] = $row;
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,6 +133,22 @@ $username = htmlspecialchars($_SESSION['username']);
         .btn:hover {
             background-color: #0056b3;
         }
+
+        .posts-list {
+            margin-top: 20px;
+        }
+
+        .posts-list h2 {
+            margin-bottom: 10px;
+        }
+
+        .post-item {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -162,6 +192,19 @@ $username = htmlspecialchars($_SESSION['username']);
                 <p>Logout from your account.</p>
                 <a href="logout.php" class="btn">Logout</a>
             </div>
+        </section>
+        <section class="posts-list">
+            <h2>Scheduled Posts</h2>
+            <?php if (empty($schedule_posts)): ?>
+                <p>No scheduled posts found.</p>
+            <?php else: ?>
+                <?php foreach ($schedule_posts as $post): ?>
+                    <div class="post-item">
+                        <p><strong>Scheduled At:</strong> <?php echo htmlspecialchars($post['scheduled_at']); ?></p>
+                        <p><?php echo htmlspecialchars($post['content']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </section>
     </main>
 </div>

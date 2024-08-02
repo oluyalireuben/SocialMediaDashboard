@@ -13,7 +13,7 @@
       <h1>Messages</h1>
       <nav>
         <ul>
-          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="dashboard.php">Dashboard</a></li>
           <li><a href="post_scheduling.html">Schedule Posts</a></li>
           <li><a href="analytics.html">View Analytics</a></li>
           <li><a href="logout.php">Logout</a></li>
@@ -27,6 +27,14 @@
       <ul id="messagesList">
         <!-- Messages will be dynamically loaded here -->
       </ul>
+    </section>
+    <section class="form-section">
+      <h2>Send a New Message</h2>
+      <form action="send_message.php" method="POST">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
     </section>
     <script src="messages.js"></script>
   </main>

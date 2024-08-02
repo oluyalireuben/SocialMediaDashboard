@@ -13,7 +13,7 @@
       <h1>View Analytics</h1>
       <nav>
         <ul>
-          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="dashboard.php">Dashboard</a></li>
           <li><a href="post_scheduling.html">Schedule Posts</a></li>
           <li><a href="messages.html">Messages</a></li>
           <li><a href="logout.php">Logout</a></li>
@@ -24,9 +24,33 @@
   <main>
     <section class="analytics-section">
       <h2>Analytics Overview</h2>
-      <p>Analytics and performance metrics will be displayed here.</p>
-      <!-- Add your analytics content or embed charts here -->
+      <ul id="analyticsList">
+        <!-- Analytics data will be dynamically loaded here -->
+      </ul>
     </section>
+    <section class="form-section">
+      <h2>Submit New Analytics Data</h2>
+      <form action="submit_analytics.php" method="POST">
+        <label for="analytics_data">Analytics Data:</label>
+        <textarea id="analytics_data" name="analytics_data" rows="4" required></textarea>
+        <button type="submit">Submit Data</button>
+      </form>
+    </section>
+    <script>
+      // Fetch and display analytics
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch('fetch_analytics.php')
+                .then(response => response.json())
+                .then(data => {
+                  const analyticsList = document.getElementById('analyticsList');
+                  data.forEach(analytic => {
+                    const li = document.createElement('li');
+                    li.textContent = `${analytic.created_at}: ${analytic.data}`;
+                    analyticsList.appendChild(li);
+                  });
+                });
+      });
+    </script>
   </main>
 </div>
 </body>
