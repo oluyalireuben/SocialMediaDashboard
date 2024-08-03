@@ -24,6 +24,7 @@ This project is a web-based application for managing social media accounts with 
     git clone https://github.com/oluyalireuben/SocialMediaDashboard.git
     cd social-media-dashboard
     ```
+    
 
 2. **Set up the database**:
     - Create a MySQL database named `social_media_dashboard`.
